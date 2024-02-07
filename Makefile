@@ -22,7 +22,7 @@ deps.header:
 duckdb:
 	git clone -b v${DUCKDB_VERSION} --depth 1 ${DUCKDB_REPO}
 
-DUCKDB_COMMON_BUILD_FLAGS := BUILD_SHELL=0 BUILD_UNITTESTS=0
+DUCKDB_COMMON_BUILD_FLAGS := BUILD_SHELL=0 BUILD_UNITTESTS=0 BUILD_EXTENSIONS="json"
 
 .PHONY: deps.darwin.amd64
 deps.darwin.amd64: duckdb

@@ -21,13 +21,15 @@ deps.header:
 duckdb:
 	git clone -b v${DUCKDB_VERSION} --depth 1 ${DUCKDB_REPO}
 
+DUCKDB_COMMON_BUILD_FLAGS := BUILD_SHELL=0 BUILD_UNITTESTS=0
+
 .PHONY: deps.darwin.amd64
 deps.darwin.amd64: duckdb
 	if [ "$(shell uname -s | tr '[:upper:]' '[:lower:]')" != "darwin" ]; then echo "Error: must run build on darwin"; false; fi
 
 	cd duckdb && \
 	git apply --3way ../duckdb-make-bundle-library.patch && \
-	CFLAGS="-target x86_64-apple-macos11 -O3" CXXFLAGS="-target x86_64-apple-macos11 -O3" BUILD_SHELL=0 BUILD_UNITTESTS=0 make bundle-library -j 2
+	CFLAGS="-target x86_64-apple-macos11 -O3" CXXFLAGS="-target x86_64-apple-macos11 -O3" ${DUCKDB_COMMON_BUILD_FLAGS} make bundle-library -j 2
 	cp duckdb/build/release/libduckdb_bundle.a deps/darwin_amd64/libduckdb.a
 
 .PHONY: deps.darwin.arm64
@@ -36,7 +38,7 @@ deps.darwin.arm64: duckdb
 
 	cd duckdb && \
 	git apply --3way ../duckdb-make-bundle-library.patch && \
-	CFLAGS="-target arm64-apple-macos11 -O3" CXXFLAGS="-target arm64-apple-macos11 -O3" BUILD_SHELL=0 BUILD_UNITTESTS=0 make bundle-library -j 2
+	CFLAGS="-target arm64-apple-macos11 -O3" CXXFLAGS="-target arm64-apple-macos11 -O3" ${DUCKDB_COMMON_BUILD_FLAGS}  make bundle-library -j 2
 	cp duckdb/build/release/libduckdb_bundle.a deps/darwin_arm64/libduckdb.a
 
 .PHONY: deps.linux.amd64
@@ -45,7 +47,7 @@ deps.linux.amd64: duckdb
 
 	cd duckdb && \
 	git apply --3way ../duckdb-make-bundle-library.patch && \
-	CFLAGS="-O3" CXXFLAGS="-O3" BUILD_SHELL=0 BUILD_UNITTESTS=0 make bundle-library -j 2
+	CFLAGS="-O3" CXXFLAGS="-O3" ${DUCKDB_COMMON_BUILD_FLAGS} make bundle-library -j 2
 	cp duckdb/build/release/libduckdb_bundle.a deps/linux_amd64/libduckdb.a
 
 .PHONY: deps.linux.arm64
@@ -54,7 +56,7 @@ deps.linux.arm64: duckdb
 
 	cd duckdb && \
 	git apply --3way ../duckdb-make-bundle-library.patch && \
-	CC="aarch64-linux-gnu-gcc" CXX="aarch64-linux-gnu-g++" CFLAGS="-O3" CXXFLAGS="-O3" BUILD_SHELL=0 BUILD_UNITTESTS=0 make bundle-library -j 2
+	CC="aarch64-linux-gnu-gcc" CXX="aarch64-linux-gnu-g++" CFLAGS="-O3" CXXFLAGS="-O3" ${DUCKDB_COMMON_BUILD_FLAGS} make bundle-library -j 2
 	cp duckdb/build/release/libduckdb_bundle.a deps/linux_arm64/libduckdb.a
 
 .PHONY: deps.freebsd.amd64
@@ -63,5 +65,5 @@ deps.freebsd.amd64: duckdb
 
 	cd duckdb && \
 	git apply --3way../duckdb-make-bundle-library.patch && \
-	CC="aarch64-linux-gnu-gcc" CXX="aarch64-linux-gnu-g++" CFLAGS="-O3" CXXFLAGS="-O3" BUILD_SHELL=0 BUILD_UNITTESTS=0 make bundle-library -j 2
+	CC="aarch64-linux-gnu-gcc" CXX="aarch64-linux-gnu-g++" CFLAGS="-O3" CXXFLAGS="-O3" ${DUCKDB_COMMON_BUILD_FLAGS} make bundle-library -j 2
 	cp duckdb/build/release/libduckdb_bundle.a deps/linux_arm64/libduckdb.a

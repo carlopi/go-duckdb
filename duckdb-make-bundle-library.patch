@@ -13,5 +13,5 @@ index 320a375..d937631 100644
 +	cp third_party/*/libduckdb_*.a bundle/. && \
 +	cp extension/*/lib*_extension.a bundle/. && \
 +	cd bundle && \
-+	find . -name '*.a' -exec ar -x {} \; && \
++	find . -name '*.a' -exec ${AR} -x {} \; && \
 +	${AR} cr ../libduckdb_bundle.a *.o

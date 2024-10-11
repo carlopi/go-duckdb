@@ -79,7 +79,7 @@ deps.windows.amd64: duckdb
 
 	# Copied from the DuckDB repository and fixed for Windows. Ideally, `make bundle-library` should also work for Windows.
 	cd duckdb && \
-	${DUCKDB_COMMON_BUILD_FLAGS} GENERATOR="-G \"MinGW Makefiles\"" gmake release -j 2
+	${DUCKDB_COMMON_BUILD_FLAGS} DUCKDB_EXPLICIT_PLATFORM=windows_amd64_rtools GENERATOR="-G \"MinGW Makefiles\"" gmake release -j 2
 	cd duckdb/build/release && \
 		mkdir -p bundle && \
 		cp src/libduckdb_static.a bundle/. && \

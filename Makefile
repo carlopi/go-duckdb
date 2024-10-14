@@ -32,7 +32,7 @@ deps.darwin.amd64: duckdb
 	if [ "$(shell uname -s | tr '[:upper:]' '[:lower:]')" != "darwin" ]; then echo "Error: must run build on darwin"; false; fi
 	mkdir -p deps/darwin_amd64
 
-	cd duckdb && \
+	cd duckdb && git apply ../make_rtools.patch &&
 	CFLAGS="-target x86_64-apple-macos11 -O3" CXXFLAGS="-target x86_64-apple-macos11 -O3" ${DUCKDB_COMMON_BUILD_FLAGS} make bundle-library -j 2
 	cp duckdb/build/release/libduckdb_bundle.a deps/darwin_amd64/libduckdb.a
 

@@ -25,7 +25,7 @@ duckdb:
 	rm -rf duckdb
 	git clone -b ${DUCKDB_BRANCH} --depth 1 ${DUCKDB_REPO}
 
-DUCKDB_COMMON_BUILD_FLAGS := BUILD_SHELL=0 BUILD_UNITTESTS=0 DUCKDB_PLATFORM=any ENABLE_EXTENSION_AUTOLOADING=1 ENABLE_EXTENSION_AUTOINSTALL=1 BUILD_EXTENSIONS="json"
+DUCKDB_COMMON_BUILD_FLAGS := BUILD_SHELL=0 BUILD_UNITTESTS=0 ENABLE_EXTENSION_AUTOLOADING=1 ENABLE_EXTENSION_AUTOINSTALL=1 BUILD_EXTENSIONS="json"
 
 .PHONY: deps.darwin.amd64
 deps.darwin.amd64: duckdb
@@ -79,7 +79,7 @@ deps.windows.amd64: duckdb
 
 	# Copied from the DuckDB repository and fixed for Windows. Ideally, `make bundle-library` should also work for Windows.
 	cd duckdb && \
-	${DUCKDB_COMMON_BUILD_FLAGS} DUCKDB_EXPLICIT_PLATFORM=windows_amd64_rtools GENERATOR="-G \"MinGW Makefiles\"" gmake release -j 2
+	${DUCKDB_COMMON_BUILD_FLAGS}  DUCKDB_PLATFORM=windows_amd64_rtools GENERATOR="-G \"MinGW Makefiles\"" gmake release -j 2
 	cd duckdb/build/release && \
 		mkdir -p bundle && \
 		cp src/libduckdb_static.a bundle/. && \

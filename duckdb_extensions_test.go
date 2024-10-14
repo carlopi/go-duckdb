@@ -1,5 +1,3 @@
-//go:build !duckdb_use_lib && !windows
-
 package duckdb
 
 import (

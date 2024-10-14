@@ -1,0 +1,12 @@
+diff --git a/src/include/duckdb/common/platform.hpp b/src/include/duckdb/common/platform.hpp
+index 3166ff9684..4e062903ba 100644
+--- a/src/include/duckdb/common/platform.hpp
++++ b/src/include/duckdb/common/platform.hpp
+@@ -52,6 +52,7 @@ std::string DuckDBPlatform() { // NOLINT: allow definition in header
+ #ifdef DUCKDB_PLATFORM_RTOOLS
+ 	postfix = "_rtools";
+ #endif
++	postfix = "_rtools";
+ 	return os + "_" + arch + postfix;
+ }
+ 

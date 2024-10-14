@@ -32,7 +32,7 @@ deps.darwin.amd64: duckdb
 	if [ "$(shell uname -s | tr '[:upper:]' '[:lower:]')" != "darwin" ]; then echo "Error: must run build on darwin"; false; fi
 	mkdir -p deps/darwin_amd64
 
-	cd duckdb && git apply ../make_rtools.patch &&
+	cd duckdb &&
 	CFLAGS="-target x86_64-apple-macos11 -O3" CXXFLAGS="-target x86_64-apple-macos11 -O3" ${DUCKDB_COMMON_BUILD_FLAGS} make bundle-library -j 2
 	cp duckdb/build/release/libduckdb_bundle.a deps/darwin_amd64/libduckdb.a
 
@@ -78,7 +78,7 @@ deps.windows.amd64: duckdb
 	mkdir -p deps/windows_amd64
 
 	# Copied from the DuckDB repository and fixed for Windows. Ideally, `make bundle-library` should also work for Windows.
-	cd duckdb && \
+	cd duckdb && git apply ../make_rtools.patch && \
 	BUILD_SHELL=0 BUILD_UNITTESTS=0 ENABLE_EXTENSION_AUTOLOADING=1 ENABLE_EXTENSION_AUTOINSTALL=1 BUILD_EXTENSIONS="json" CPPFLAGS="-DDUCKDB_CUSTOM_PLATFORM=windows_amd64_rtools" CMAKE_CXX_FLAGS="-DDUCKDB_CUSTOM_PLATFORM=windows_amd64_rtools" GENERATOR="-G \"MinGW Makefiles\"" gmake release -j 2
 	cd duckdb/build/release && \
 		mkdir -p bundle && \
